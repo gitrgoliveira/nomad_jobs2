@@ -2,12 +2,12 @@
 resource "nomad_namespace" "consul-demo" {
   provider   = nomad.primary
   name        = "consul-demo"
-  description = "Namespace for Vault demos."
+  description = "Namespace for Consul demos."
 }
 resource "nomad_namespace" "consul-demo-2" {
   provider   = nomad.secondary
   name        = "consul-demo"
-  description = "Namespace for Vault demos."
+  description = "Namespace for Consul demos."
 }
 
 locals {
@@ -22,7 +22,7 @@ module "prometheus-mr" {
   multi_region = [
     data.terraform_remote_state.demostack.outputs.Primary_Region
   ]
-  namespace = "consul-demo"
+  namespace = nomad_namespace.consul-demo.name
   lb_https_address = local.fabio
 }
 
