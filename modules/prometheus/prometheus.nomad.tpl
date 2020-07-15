@@ -1,8 +1,9 @@
 job "monitoring" {
   multiregion {
-%{ for region in multi_region }
+%{ for region in multiregion }
     region  "${region}" {
       datacenters = ["${region}a","${region}b","${region}c"]
+      count = 1
     }
 %{ endfor ~}
   }
@@ -11,7 +12,6 @@ job "monitoring" {
   namespace = "${namespace}"
 
   group "prometheus-grafana" {
-    count = 1
     ephemeral_disk {
       size = 300
     }

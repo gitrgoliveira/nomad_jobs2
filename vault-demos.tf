@@ -1,4 +1,3 @@
-
 resource "nomad_namespace" "vault-demo" {
   provider   = nomad.primary
   name        = "vault-demo"
@@ -15,9 +14,33 @@ module "nginx-pki-mr" {
   providers = {
     nomad = nomad.primary
   }
-  multi_region = [
+  multiregion = [
     data.terraform_remote_state.demostack.outputs.Primary_Region,
     data.terraform_remote_state.demostack.outputs.Secondary_Region
   ]
   namespace = nomad_namespace.vault-demo.name
 }
+
+module "openldap" {
+  source = "./modules/openldap"
+  providers = {
+    nomad = nomad.primary
+  }
+  multiregion = [
+    data.terraform_remote_state.demostack.outputs.Primary_Region,
+    data.terraform_remote_state.demostack.outputs.Secondary_Region
+  ]
+  namespace = nomad_namespace.vault-demo.name
+}
+module "phpldapadmin" {
+  source = "./modules/phpldapadmin"
+  providers = {
+    nomad = nomad.primary
+  }
+  multiregion = [
+    data.terraform_remote_state.demostack.outputs.Primary_Region,
+    data.terraform_remote_state.demostack.outputs.Secondary_Region
+  ]
+  namespace = nomad_namespace.vault-demo.name
+}
+

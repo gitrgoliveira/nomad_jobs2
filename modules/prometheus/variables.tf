@@ -1,4 +1,4 @@
-variable "multi_region" {
+variable "multiregion" {
   description = "region for the job"
   default = []
 }

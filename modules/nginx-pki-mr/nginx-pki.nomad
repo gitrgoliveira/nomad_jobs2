@@ -1,6 +1,6 @@
 job "nginx" {
   multiregion {
-%{ for region in multi_region }
+%{ for region in multiregion }
     region  "${region}" {
       datacenters = ["${region}a","${region}b","${region}c"]
     }

@@ -1,4 +1,4 @@
-job "nomad_federation" {
+job "consul_federation" {
   datacenters = ["${region}a","${region}b","${region}c"]
   type = "batch"
 
@@ -7,10 +7,14 @@ job "nomad_federation" {
       attribute = "$${meta.type}"
       value     = "server"
     }
-    driver = "exec"
     template {
       data = <<EOH
 #!/bin/bash
+consul tls ca create
+
+consul-agent-ca.pem
+consul-agent-ca-key.pem
+
 source /etc/profile.d/nomad.sh
 /usr/local/bin/nomad server join nomad-server.service.${target_region}.consul:4648
 EOH

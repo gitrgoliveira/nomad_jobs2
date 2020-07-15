@@ -1,7 +1,7 @@
 resource "nomad_job" "nginx-pki-mr" {
   provider = nomad
   jobspec  = templatefile("${path.module}/nginx-pki.nomad", {
-    multi_region = var.multi_region
+    multiregion = var.multiregion
     namespace = var.namespace
   })
 }

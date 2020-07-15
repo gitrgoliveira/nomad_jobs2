@@ -10,7 +10,8 @@ data "terraform_remote_state" "demostack" {
     }
   } //config
 }
-# Configure the Nomad provider
+
+# Configure the Nomad providers
 provider "nomad" {
   alias   = "primary"
   address = data.terraform_remote_state.demostack.outputs.Primary_Nomad
@@ -20,12 +21,6 @@ provider "nomad" {
   address = data.terraform_remote_state.demostack.outputs.Secondary_Nomad
 }
 
-# locals {
-#   workers = data.terraform_remote_state.demostack.outputs.Primary_nomad_tag_workers
-#   servers = data.terraform_remote_state.demostack.outputs.Primary_nomad_tag_servers
-# }
-
-# Register a job
 resource "nomad_job" "consul_federation" {
   provider = nomad.primary
   detach   = false
@@ -50,7 +45,7 @@ module "fabio-lb-mr" {
   providers = {
     nomad = nomad.primary
   }
-  multi_region = [
+  multiregion = [
     data.terraform_remote_state.demostack.outputs.Primary_Region,
     data.terraform_remote_state.demostack.outputs.Secondary_Region
   ]
@@ -61,7 +56,7 @@ module "traefik-lb-mr" {
   providers = {
     nomad = nomad.primary
   }
-  multi_region = [
+  multiregion = [
     data.terraform_remote_state.demostack.outputs.Primary_Region,
     data.terraform_remote_state.demostack.outputs.Secondary_Region
   ]

@@ -19,11 +19,53 @@ module "prometheus-mr" {
   providers = {
     nomad = nomad.primary
   }
-  multi_region = [
+  multiregion = [
     data.terraform_remote_state.demostack.outputs.Primary_Region
   ]
   namespace = nomad_namespace.consul-demo.name
   lb_https_address = local.fabio
 }
 
+module "consul-mesh-gateway" {
+  source = "./modules/consul-mesh-gateway"
+  providers = {
+    nomad = nomad.primary
+  }
+  multiregion = [
+    data.terraform_remote_state.demostack.outputs.Primary_Region
+  ]
+  namespace = nomad_namespace.consul-demo.name
+}
+module "consul-mesh-gateway2" {
+  source = "./modules/consul-mesh-gateway"
+  providers = {
+    nomad = nomad.secondary
+  }
+  multiregion = [
+    data.terraform_remote_state.demostack.outputs.Secondary_Region
+  ]
+  namespace = nomad_namespace.consul-demo.name
+}
 
+module "chatapp" {
+  source = "./modules/chatapp"
+  providers = {
+    nomad = nomad.primary
+  }
+  multiregion = [
+    data.terraform_remote_state.demostack.outputs.Primary_Region
+  ]
+  namespace = nomad_namespace.consul-demo.name
+}
+
+module "count-demo" {
+  source = "./modules/count-demo"
+  providers = {
+    nomad = nomad.primary
+  }
+  multiregion = [
+    data.terraform_remote_state.demostack.outputs.Primary_Region,
+    data.terraform_remote_state.demostack.outputs.Secondary_Region
+  ]
+  namespace = nomad_namespace.consul-demo.name
+}

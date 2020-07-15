@@ -1,7 +1,7 @@
 resource "nomad_job" "prometheus-mr" {
   provider = nomad
   jobspec  = templatefile("${path.module}/prometheus.nomad.tpl", {
-    multi_region = var.multi_region
+    multiregion = var.multiregion
     namespace = var.namespace
     lb_url = "${var.lb_https_address}"
     lb_srv = substr(var.lb_https_address, 7, length(var.lb_https_address))
