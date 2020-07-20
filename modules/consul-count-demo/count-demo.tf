@@ -3,8 +3,8 @@ module "count-api" {
   providers = {
     nomad = nomad
   }
-  multiregion = [ var.multiregion[0] ]
-  namespace = var.namespace
+  multiregion = [var.multiregion[0]]
+  namespace   = var.namespace
 }
 
 module "count-dashboard" {
@@ -13,13 +13,13 @@ module "count-dashboard" {
     nomad = nomad
   }
   multiregion = var.multiregion
-  namespace = var.namespace
+  namespace   = var.namespace
 }
 
 resource "nomad_job" "count-dashboard" {
   provider = nomad
-  jobspec  = templatefile("${path.module}/consul-resolvers.nomad.tpl", {
+  jobspec = templatefile("${path.module}/consul-resolvers.nomad.tpl", {
     multiregion = var.multiregion
-    namespace = var.namespace
+    namespace   = var.namespace
   })
 }

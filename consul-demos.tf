@@ -59,8 +59,8 @@ module "chatapp" {
   namespace = nomad_namespace.consul-demo.name
 }
 
-module "count-demo" {
-  source = "./modules/count-demo"
+module "consul-count-demo" {
+  source = "./modules/consul-count-demo"
   providers = {
     nomad = nomad.primary
   }

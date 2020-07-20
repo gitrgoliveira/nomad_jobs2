@@ -1,7 +1,7 @@
 resource "nomad_job" "openldap" {
   provider = nomad
-  jobspec  = templatefile("${path.module}/openldap.nomad.tpl", {
+  jobspec = templatefile("${path.module}/openldap.nomad.tpl", {
     multiregion = var.multiregion
-    namespace = var.namespace
+    namespace   = var.namespace
   })
 }

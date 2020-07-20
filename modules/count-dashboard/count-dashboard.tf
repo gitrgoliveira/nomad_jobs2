@@ -1,7 +1,7 @@
 resource "nomad_job" "count-dashboard" {
   provider = nomad
-  jobspec  = templatefile("${path.module}/countdashboard.nomad.tpl", {
+  jobspec = templatefile("${path.module}/countdashboard.nomad.tpl", {
     multiregion = var.multiregion
-    namespace = var.namespace
+    namespace   = var.namespace
   })
 }
