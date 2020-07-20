@@ -28,7 +28,6 @@ cat << EOF >  proxy-defaults.json
 }
 EOF
 
-
 cat << EOF > count-api.hcl
 Kind = "service-defaults"
 Name = "count-api"
@@ -51,6 +50,21 @@ consul config write proxy-defaults.json
 consul config write count-api.hcl
 consul config write resolver.hcl
 
+curl http://127.0.01:8500/v1/query \
+    --request POST \
+    --data \
+'{
+  "Name": "",
+  "Template": {
+    "Type": "name_prefix_match"
+  },
+  "Service": {
+    "Service": "$${name.full}",
+    "Failover": {
+      "NearestN": 3
+    }
+  }
+}'
 EOH
 
       destination = "script.sh"
