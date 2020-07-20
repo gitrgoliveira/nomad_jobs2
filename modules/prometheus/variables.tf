@@ -1,12 +1,12 @@
 variable "multiregion" {
   description = "region for the job"
-  default = []
+  default     = []
 }
 variable "namespace" {
   description = "region for the job"
-  default = "default"
+  default     = "default"
 }
 variable "lb_https_address" {
   description = "URL of the load balancer"
-  default = "default"
+  default     = "default"
 }

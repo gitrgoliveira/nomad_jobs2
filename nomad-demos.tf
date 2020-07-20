@@ -1,10 +1,11 @@
 resource "nomad_namespace" "nomad-demo" {
-  provider   = nomad.primary
+  provider    = nomad.primary
   name        = "nomad-demo"
   description = "Namespace for Nomad demos."
 }
 resource "nomad_namespace" "nomad-demo-2" {
-  provider   = nomad.secondary
+  depends_on  = [nomad_job.nomad_federation]
+  provider    = nomad.secondary
   name        = "nomad-demo"
   description = "Namespace for Nomad demos."
 }
