@@ -1,8 +1,8 @@
 nomad {
-  http_addr       = "nomad-server.service.consul:4646"
+  http_addr       = "https://nomad-server.service.consul:4646"
   token           = ""
-  region          = ""
-  # ca_path         = ""
+# region          = "" defaults to local region
+# ca_path         = ""
   ca_file         = "/usr/local/share/ca-certificates/01-me.crt"
   cert_file       = "/etc/ssl/certs/me.crt"
   key_file        = "/etc/ssl/certs/me.key"
@@ -17,7 +17,7 @@ snapshot {
   deregister_after = "72h"
   lock_key         = "nomad-snapshot/lock"
   max_failures     = 3
-  name_prefix      = "nomad"
+  prefix      = "nomad"
 }
 
 log {

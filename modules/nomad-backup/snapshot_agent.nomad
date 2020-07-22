@@ -20,21 +20,21 @@ job "nomad_backup" {
       data = <<EOH
 ${config}
 EOH
-      destination = "local/agent_config.hcl"
+      destination = "/local/agent_config.hcl"
       perms = "755"
     }
     template {
       data = <<EOH
 #!/bin/bash
 source /etc/profile.d/nomad.sh
-/usr/local/bin/nomad operator snapshot agent agent_config.hcl
+/usr/local/bin/nomad operator snapshot agent /local/agent_config.hcl
 EOH
-      destination = "local/nomad-snapshot-run.sh"
+      destination = "/local/nomad-snapshot-run.sh"
       perms = "755"
     }
     config {
       command = "bash"
-      args    = ["local/nomad-snapshot-run.sh"]
+      args    = ["/local/nomad-snapshot-run.sh"]
     }
   }
 }

@@ -10,14 +10,14 @@ resource "nomad_namespace" "nomad-demo-2" {
   description = "Namespace for Nomad demos."
 }
 
-# module "nomad-backup" {
-#   source = "./modules/nomad-backup"
-#   providers = {
-#     nomad = nomad.primary
-#   }
-#   multiregion = [
-#     data.terraform_remote_state.demostack.outputs.Primary_Region,
-#     data.terraform_remote_state.demostack.outputs.Secondary_Region
-#   ]
-#   namespace = nomad_namespace.nomad-demo.name
-# }
+module "nomad-backup" {
+  source = "./modules/nomad-backup"
+  providers = {
+    nomad = nomad.primary
+  }
+  multiregion = [
+    data.terraform_remote_state.demostack.outputs.Primary_Region,
+    data.terraform_remote_state.demostack.outputs.Secondary_Region
+  ]
+  namespace = nomad_namespace.nomad-demo.name
+}
