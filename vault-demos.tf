@@ -1,4 +1,5 @@
 resource "nomad_namespace" "vault-demo" {
+  depends_on  = [nomad_job.nomad_federation]
   provider    = nomad.primary
   name        = "vault-demo"
   description = "Namespace for Vault demos."
