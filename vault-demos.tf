@@ -34,3 +34,15 @@ module "vault-ldap-demo" {
   ]
   namespace = nomad_namespace.vault-demo.name
 }
+
+module "vault-postgres-demo" {
+  source = "./modules/vault-postgres-demo"
+  providers = {
+    nomad = nomad.primary
+  }
+  multiregion = [
+    data.terraform_remote_state.demostack.outputs.Primary_Region,
+    data.terraform_remote_state.demostack.outputs.Secondary_Region
+  ]
+  namespace = nomad_namespace.vault-demo.name
+}
