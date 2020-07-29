@@ -18,13 +18,23 @@ job "vault-postgres-setup" {
     driver = "exec"
 
     template {
+      left_delimiter = "::"
+      right_delimiter = ";;"
       data = <<EOH
 set -v
+export VAULT_ADDR=https://vault.service.consul:8200
+
 vault secrets enable database || true
 vault write database/config/postgresql  \
  plugin_name=postgresql-database-plugin \
  connection_url="postgresql://{{username}}:{{password}}@postgres.service.consul:5432/postgres?sslmode=disable" \
  allowed_roles="*" username="root" password="rootpassword"
+
+
+tee readonly.sql > /dev/null<<EOF
+CREATE ROLE "{{name}}" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO "{{name}}";
+EOF
 
 vault write database/roles/readonly \
   db_name=postgresql \

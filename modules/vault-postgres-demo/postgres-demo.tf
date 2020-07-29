@@ -17,8 +17,19 @@ module "postgres" {
   namespace   = var.namespace
 }
 
+# Debug
+# resource "local_file" "foo" {
+#   depends_on  = [module.postgres]
+#   content     = templatefile("${path.module}/vault-setup.nomad.tpl", {
+#     multiregion = var.multiregion
+#     namespace   = var.namespace
+#   })
+#   filename = "${path.module}/vault-setup.nomad"
+# }
+
 resource "nomad_job" "vault-setup" {
-  provider = nomad
+  provider   = nomad
+  depends_on = [module.postgres]
   jobspec = templatefile("${path.module}/vault-setup.nomad.tpl", {
     multiregion = var.multiregion
     namespace   = var.namespace

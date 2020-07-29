@@ -20,6 +20,8 @@ job "vault-ldap-setup" {
     template {
       data = <<EOH
 set -v
+export VAULT_ADDR=https://vault.service.consul:8200
+
 vault auth enable -tls-skip-verify ldap || true
 
 vault write -tls-skip-verify auth/ldap/config \
@@ -54,7 +56,6 @@ vault write -tls-skip-verify identity/group-alias name="requesters" \
         canonical_id=$(cat requesters_group_id.txt)
 
 vault kv put -tls-skip-verify kv/cgtest example=value
-
 
 EOH
 
