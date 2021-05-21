@@ -13,7 +13,7 @@ resource "nomad_namespace" "consul-demo-2" {
 }
 
 locals {
-  fabio = "${data.terraform_remote_state.demostack.outputs.Primary_Fabio}"
+  fabio = data.terraform_remote_state.demostack.outputs.Primary_Fabio
 }
 
 module "prometheus-mr" {
